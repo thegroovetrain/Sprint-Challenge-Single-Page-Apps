@@ -1,16 +1,48 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import styled from 'styled-components';
 
-export default function CharacterList() {
-  // TODO: Add useState to track data from useEffect
+import CharacterCard from './CharacterCard';
+
+export default function CharacterList(props) {
+  
+  const [characters, setCharacters] = useState([]);
 
   useEffect(() => {
-    // TODO: Add API Request here - must run in `useEffect`
-    //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
+
+    axios.get('https://cors-anywhere.herokuapp.com/https://rickandmortyapi.com/api/character/')
+      .then(response => {
+        console.log(response);
+        setCharacters(response.data.results);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+
   }, []);
 
   return (
-    <section className="character-list">
-      <h2>TODO: `array.map()` over your state here!</h2>
-    </section>
+    <Container className="character-list">
+      {
+        (props.filterName == '') ? (
+          characters.map(character => {
+            return (<CharacterCard key={character.id} data={character} />)
+          })
+        ) : (
+          characters
+            .filter(character => character.name.toLowerCase().includes(props.filterName.toLowerCase()))
+            .map(character => {
+              return (<CharacterCard key={character.id} data={character} />)
+            })
+        )
+      }
+    </Container>
   );
 }
+
+const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: space-between;
+  flex-wrap: wrap;
+`;
