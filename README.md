@@ -29,6 +29,8 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 > Answer:
 
+Client-side routing avoids page refreshes. Beyond that as far as I can tell it is pretty much the same as server-side routing.
+
 ## Project Set Up
 
 Follow these steps to set up and work on your project:
